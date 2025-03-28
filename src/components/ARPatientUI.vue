@@ -125,8 +125,8 @@ export default {
       data.shift();
       
       const time = Date.now() / 1000;
-      const pulseValue = Math.sin(time * 4) * 15 + 
-                         Math.sin(time * 8) * 8 + 
+      const pulseValue = Math.sin(time * 4) * 30 + 
+                         Math.sin(time * 8) * 18 + 
                          Math.random() * 1.5;
       data.push(canvas.height / 2 - pulseValue);
       
@@ -140,7 +140,7 @@ export default {
         ctx.lineTo(i, data[i]);
       }
       ctx.strokeStyle = color;
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 3.5;
       ctx.stroke();
     },
     updateBreathWaveform() {
@@ -152,7 +152,7 @@ export default {
       data.shift();
       
       const time = Date.now() / 1000;
-      const breathValue = Math.sin(time * 1) * 20 + Math.random() * 1.5;
+      const breathValue = Math.sin(time * 1) * 50 + Math.random() * 1.5;
       data.push(canvas.height / 2 - breathValue);
       
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -165,7 +165,7 @@ export default {
         ctx.lineTo(i, data[i]);
       }
       ctx.strokeStyle = color;
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 3.5;
       ctx.stroke();
     },
     drawGrid(ctx, width, height) {
@@ -296,8 +296,9 @@ export default {
 
 .vital-sign h2 {
   font-size: 18px;
-  margin-top: 0;
-  margin-bottom: 8px;
+  margin-top: 8px;
+  margin-left: 20px;
+  margin-bottom: 10px;
   color: #ffffff;
   font-weight: 500;
   height: 24px;
@@ -307,12 +308,13 @@ export default {
   display: flex;
   align-items: center;
   flex: 1;
+  gap: 15px;
 }
 
 .vital-value {
   font-size: 32px;
   font-weight: bold;
-  width: 100px;
+  min-width: 90px;
   text-align: center;
   color: #ffffff;
 }
@@ -329,7 +331,8 @@ export default {
   border-radius: 4px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  height: 100%;
+  height: 80%;
+  min-height: 80px; /* Ensure minimum height for waveforms */
 }
 
 .waveform {
