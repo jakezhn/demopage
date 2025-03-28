@@ -83,18 +83,18 @@ export default {
       const pulseCanvas = this.$refs.pulseCanvas;
       const pulseCtx = pulseCanvas.getContext('2d');
       pulseCanvas.width = pulseCanvas.parentElement.clientWidth;
-      pulseCanvas.height = 100;
+      pulseCanvas.height = pulseCanvas.parentElement.clientHeight;
       
       const breathCanvas = this.$refs.breathCanvas;
       const breathCtx = breathCanvas.getContext('2d');
       breathCanvas.width = breathCanvas.parentElement.clientWidth;
-      breathCanvas.height = 100;
+      breathCanvas.height = breathCanvas.parentElement.clientHeight;
       
       this.pulseWaveform = {
         canvas: pulseCanvas,
         ctx: pulseCtx,
         data: Array(pulseCanvas.width).fill(pulseCanvas.height / 2),
-        color: '#4ecdc4',
+        color: '#ff4d4d',  // Red for heart rate
         counter: 0
       };
       
@@ -102,7 +102,7 @@ export default {
         canvas: breathCanvas,
         ctx: breathCtx,
         data: Array(breathCanvas.width).fill(breathCanvas.height / 2),
-        color: '#f7fff7',
+        color: '#4dff88',  // Green for breath rate
         counter: 0
       };
     },
@@ -199,26 +199,29 @@ export default {
   font-family: 'Helvetica Neue', Arial, sans-serif;
   color: #ffffff;
   background-color: rgba(11, 70, 88, 0.95);
-  padding: 20px;
+  padding: 15px 20px;
   border-radius: 10px;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  aspect-ratio: 16/10;
+  max-height: 100vh;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  height: 8%;
 }
 
 .header h1 {
-  font-size: 24px;
+  font-size: 22px;
   margin: 0;
   color: #ffffff;
   font-weight: 500;
@@ -231,31 +234,37 @@ export default {
 }
 
 .patient-info p {
-  margin: 5px 0;
+  margin: 3px 0;
 }
 
 .main-content {
   display: flex;
   flex: 1;
-  gap: 20px;
+  gap: 15px;
   flex-direction: row;
+  height: 85%;
 }
 
 .body-scan {
-  flex: 1;
+  flex: 0 0 55%;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  padding: 15px;
-  min-width: 500px;
+  padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
 }
 
 .body-scan h2 {
   color: #ffffff;
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 8px;
+  height: 24px;
 }
 
 .scan-container {
-  height: 400px;
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -263,46 +272,47 @@ export default {
 }
 
 .scan-image {
-  height: 100%;
   width: 100%;
-  max-width: 200%;
-  max-height: 200%;
+  height: 100%;
   object-fit: contain;
 }
 
 .vital-signs {
-  flex: 2;
+  flex: 0 0 43%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 }
 
 .vital-sign {
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  padding: 15px;
+  padding: 12px;
   flex: 1;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
 }
 
 .vital-sign h2 {
   font-size: 18px;
   margin-top: 0;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   color: #ffffff;
   font-weight: 500;
+  height: 24px;
 }
 
 .vital-data {
   display: flex;
   align-items: center;
-  height: 150px;
+  flex: 1;
 }
 
 .vital-value {
   font-size: 32px;
   font-weight: bold;
-  width: 120px;
+  width: 100px;
   text-align: center;
   color: #ffffff;
 }
@@ -315,12 +325,11 @@ export default {
 
 .waveform-container {
   flex: 1;
-  width: 300px;
-  height: 150px;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.15);
+  height: 100%;
 }
 
 .waveform {
@@ -329,29 +338,54 @@ export default {
 }
 
 .footer {
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: center;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.7);
+  height: 5%;
 }
 
-@media (min-width: 1600px) {
+/* Ensure proper aspect ratio for different screen sizes */
+@media (max-width: 1600px) {
+  .body-scan {
+    flex: 0 0 53%;
+  }
+  
   .vital-signs {
-    flex: 3;
+    flex: 0 0 45%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .body-scan {
+    flex: 0 0 50%;
+  }
+  
+  .vital-signs {
+    flex: 0 0 48%;
   }
 }
 
 @media (max-width: 1024px) {
+  .ar-patient-ui {
+    aspect-ratio: auto;
+  }
+  
   .main-content {
     flex-direction: column;
   }
   
   .body-scan, .vital-signs {
     flex: none;
+    width: 100%;
   }
   
-  .scan-container {
-    height: 300px;
+  .body-scan {
+    height: 60%;
+  }
+  
+  .vital-signs {
+    height: 40%;
   }
 }
 </style> 
